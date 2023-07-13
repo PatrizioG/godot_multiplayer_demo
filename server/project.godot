@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Server"
-run/main_scene="res://Scenes/Main/world.tscn"
+run/main_scene="res://Scenes/Main/World.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Network="*res://Scenes/Main/Network.tscn"
+Network="*res://Singletones/Network.gd"
 
 [dotnet]
 

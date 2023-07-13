@@ -14,7 +14,3 @@ func peer_connected(peer_id):
 	
 func peer_disconnected(peer_id):
 	get_node(str(peer_id)).queue_free()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

@@ -21,10 +21,12 @@ func start_server():
 	multiplayer.server_disconnected.connect(func():
 		print("Server disconnected"))
 		
+func call_fetch_skill_damage(num):
+	rpc_id(1, 'fetch_skill_damage', num)
+
 @rpc
 func fetch_skill_damage():
-	print("Called fetch_skill_damage on client ")
-	rpc_id(1, 'fetch_skill_damage', 12)
+	pass
 
 @rpc("authority")
 func return_fetch_skill_damage(damage):
@@ -33,11 +35,3 @@ func return_fetch_skill_damage(damage):
 @rpc("authority")
 func receive_world_state(world_state):
 	world_states.push_front(world_state)
-
-func to_server(input):
-	rpc_id(1, 'synchronize_on_server', input)
-	
-@rpc("call_local", "unreliable")
-func synchronize_on_server(input):
-	pass
-

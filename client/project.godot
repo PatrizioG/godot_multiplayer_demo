@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Network="*res://Scenes/Main/Network.tscn"
+Network="*res://Singletones/Network.gd"
 
 [dotnet]
 
