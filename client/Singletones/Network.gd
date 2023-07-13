@@ -21,12 +21,9 @@ func start_server():
 	multiplayer.server_disconnected.connect(func():
 		print("Server disconnected"))
 		
-func call_fetch_skill_damage(num):
-	rpc_id(1, 'fetch_skill_damage', num)
-
 @rpc
-func fetch_skill_damage():
-	pass
+func fetch_skill_damage(num):
+	rpc_id(1, 'fetch_skill_damage', num)
 
 @rpc("authority")
 func return_fetch_skill_damage(damage):

@@ -49,7 +49,7 @@ func process_input(delta):
 		"input_sequence_number" = input_sequence_number,
 	}
 	
-	Network.call_fetch_skill_damage(input)
+	Network.fetch_skill_damage(input)
 	
 	if client_side_prediction:
 		position += velocity
