@@ -14,3 +14,14 @@ func peer_connected(peer_id):
 	
 func peer_disconnected(peer_id):
 	get_node(str(peer_id)).queue_free()
+	
+func _physics_process(delta):
+	process_input(delta)
+	
+func process_input(delta):
+	for child in get_children():
+		if Network.world_state.has(child.name):
+			var input = Network.world_state[child.name].pop_back()
+			while input != null:
+				child.position += input.velocity
+				input = Network.world_state[child.name].pop_back()
