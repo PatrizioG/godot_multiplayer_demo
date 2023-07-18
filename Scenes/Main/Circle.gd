@@ -1,19 +1,16 @@
 extends Node2D
 
 @export var radius: float
-@export var color: Color
 @export var speed: float = 400
 @export var client_side_prediction: bool = true
 @export var entity_interpolation:bool = true;
 @export var server_reconciliation:bool = true;
+var color: Color
 
 var input_sequence_number = 0
 var pending_inputs: Array
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
+@onready var label = $Label.text
+	
 func _draw():
 	draw_circle(position, radius, color)
 
@@ -24,12 +21,16 @@ func _physics_process(delta):
 		interpolate_entities()
 
 func process_server_messages():
-	while true:
-		var world_state = Network.world_states.pop_back()
-		if world_state == null:
-			break
+	pass
+#	while true:
+#		var world_state = Network.world_states.pop_back()
+#		if world_state == null:
+#			break
 		
 func process_input(delta):
+	if not is_multiplayer_authority():
+		return
+		
 	var velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("ui_left"): velocity.x -= 1
 	if Input.is_action_pressed("ui_right"): velocity.x += 1
@@ -49,7 +50,8 @@ func process_input(delta):
 		"input_sequence_number" = input_sequence_number,
 	}
 	
-	Network.fetch_skill_damage(input)
+	#Network.fetch_skill_damage(input)
+	rpc("send_input", input)
 	
 	if client_side_prediction:
 		position += velocity
@@ -59,3 +61,7 @@ func process_input(delta):
 	
 func interpolate_entities():
 	pass
+	
+@rpc("call_remote", "unreliable")
+func send_input(input):
+	position += input.velocity

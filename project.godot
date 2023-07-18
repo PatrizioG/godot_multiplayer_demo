@@ -10,15 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Server"
+config/name="Client"
 run/main_scene="res://Scenes/Main/World.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Network="*res://Singletones/Network.gd"
-
 [dotnet]
 
-project/assembly_name="Server"
+project/assembly_name="Client"
