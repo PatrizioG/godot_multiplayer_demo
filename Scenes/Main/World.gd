@@ -1,7 +1,7 @@
 extends Node2D
 
 var multiplayer_peer = ENetMultiplayerPeer.new()
-var connected_peer_ids = []
+var connected_peers = {}
 const PORT = 9999
 const ADDRESS = "127.0.0.1"
 
@@ -18,8 +18,17 @@ func _on_server_btn_pressed():
 
 func peer_connected(peer_id):
 	print("User " + str(peer_id) + " connected")
+	
+	# Chose a random color.
 	var color = Color(randf(), randf(), randf())
+	
+	# Spawn the character to all the connected client
 	rpc("spawn_character", peer_id, color)
+	
+	# Spawn the previously connected character to the new connected client
+	rpc_id(peer_id, "spawn_previously_connected_characters", connected_peers)
+	
+	# Add player to the server.
 	add_player(peer_id, color)
 
 func peer_disconnected(peer_id):
@@ -35,6 +44,11 @@ func peer_disconnected(peer_id):
 func spawn_character(peer_id, color):
 	# call this method only to connected clients
 	add_player(peer_id, color)
+	
+@rpc("call_remote")
+func spawn_previously_connected_characters(peers):
+	for peer in peers.keys():
+		add_player(peer, peers[peer])
 	
 func _on_client_btn_pressed():
 	$NetworkInfo/NetworkSideDisplay.text = "Client"
@@ -53,10 +67,10 @@ func _on_client_btn_pressed():
 		print("Server disconnected"))
 
 func add_player(peer_id, color):
-	connected_peer_ids.append(peer_id)
+	connected_peers[peer_id] = color
 	var circle = Circle.instantiate()
 	circle.name = str(peer_id)
+	circle.label = str(peer_id)
 	circle.color = color
-	circle.queue_redraw()
 	circle.set_multiplayer_authority(peer_id)
 	add_child(circle)	

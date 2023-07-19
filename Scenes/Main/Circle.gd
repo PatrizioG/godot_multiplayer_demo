@@ -9,8 +9,12 @@ var color: Color
 
 var input_sequence_number = 0
 var pending_inputs: Array
-@onready var label = $Label.text
-	
+var label:
+	get:
+		return $Label.text
+	set(value):
+		$Label.text = value
+
 func _draw():
 	draw_circle(position, radius, color)
 

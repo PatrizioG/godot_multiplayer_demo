@@ -10,7 +10,6 @@ config_version=5
 
 [application]
 
-config/name="Client"
 run/main_scene="res://Scenes/Main/World.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
