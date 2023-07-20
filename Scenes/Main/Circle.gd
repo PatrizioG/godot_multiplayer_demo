@@ -1,10 +1,13 @@
 extends Node2D
 
+class_name Circle
+
 @export var radius: float
 @export var speed: float = 400
 @export var client_side_prediction: bool = true
 @export var entity_interpolation:bool = true;
 @export var server_reconciliation:bool = true;
+@export var latency: float = 0.250
 var color: Color
 
 var input_sequence_number = 0
@@ -53,9 +56,10 @@ func process_input(delta):
 		"press_time" = delta,
 		"input_sequence_number" = input_sequence_number,
 	}
-	
-	#Network.fetch_skill_damage(input)
-	rpc("send_input", input)
+		
+	get_tree().create_timer(latency).timeout.connect(
+		func(): rpc("send_input", input)
+	)
 	
 	if client_side_prediction:
 		position += velocity

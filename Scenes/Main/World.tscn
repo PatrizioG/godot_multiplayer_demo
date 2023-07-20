@@ -31,5 +31,21 @@ layout_mode = 2
 [node name="UniquePeerID" type="Label" parent="NetworkInfo"]
 layout_mode = 2
 
+[node name="Lag" type="HBoxContainer" parent="."]
+visible = false
+offset_left = 106.0
+offset_top = 13.0
+offset_right = 209.0
+offset_bottom = 44.0
+
+[node name="Label" type="Label" parent="Lag"]
+layout_mode = 2
+text = "Lag:"
+
+[node name="LineEdit" type="LineEdit" parent="Lag"]
+layout_mode = 2
+text = "0.250"
+
 [connection signal="pressed" from="Menu/ServerBtn" to="." method="_on_server_btn_pressed"]
 [connection signal="pressed" from="Menu/ClientBtn" to="." method="_on_client_btn_pressed"]
+[connection signal="text_submitted" from="Lag/LineEdit" to="." method="_on_line_edit_text_submitted"]

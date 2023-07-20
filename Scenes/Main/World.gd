@@ -6,6 +6,7 @@ const PORT = 9999
 const ADDRESS = "127.0.0.1"
 
 var Circle = preload("res://Scenes/Main/Circle.tscn")
+var local_player: Circle
 
 func _on_server_btn_pressed():
 	$NetworkInfo/NetworkSideDisplay.text = "Server"
@@ -56,6 +57,7 @@ func _on_client_btn_pressed():
 	multiplayer_peer.create_client(ADDRESS, PORT)	
 	multiplayer.multiplayer_peer = multiplayer_peer
 	$NetworkInfo/UniquePeerID.text = str(multiplayer.get_unique_id())
+	$Lag.visible = true
 	
 	multiplayer.connection_failed.connect(func(): 
 		print("Connection failed"))
@@ -73,4 +75,11 @@ func add_player(peer_id, color):
 	circle.label = str(peer_id)
 	circle.color = color
 	circle.set_multiplayer_authority(peer_id)
-	add_child(circle)	
+	add_child(circle)
+	if peer_id == multiplayer.get_unique_id():
+		local_player = circle
+
+func _on_line_edit_text_submitted(new_text):
+	print("input submitted: ", new_text)	
+	local_player.latency = float(new_text) # Replace with function body.	
+	$Lag/LineEdit.release_focus()
