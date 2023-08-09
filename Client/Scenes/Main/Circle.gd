@@ -4,7 +4,7 @@ class_name Circle
 
 @export var radius: float
 @export var speed: float = 400
-@export var client_side_prediction: bool = true
+@export var client_side_prediction: bool = false
 @export var entity_interpolation:bool = true;
 @export var server_reconciliation:bool = true;
 @export var latency: float = 0.250
@@ -58,7 +58,7 @@ func process_input(delta):
 	}
 		
 	get_tree().create_timer(latency).timeout.connect(
-		func(): rpc("send_input", input)
+		func(): SyncroHub.send_input_to_server(input)
 	)
 	
 	if client_side_prediction:
@@ -69,7 +69,3 @@ func process_input(delta):
 	
 func interpolate_entities():
 	pass
-	
-@rpc("call_remote", "unreliable")
-func send_input(input):
-	position += input.velocity

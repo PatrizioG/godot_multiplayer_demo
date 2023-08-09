@@ -5,20 +5,6 @@
 [node name="World" type="Node2D"]
 script = ExtResource("1_cpycn")
 
-[node name="Menu" type="VBoxContainer" parent="."]
-offset_left = 19.0
-offset_top = 15.0
-offset_right = 77.0
-offset_bottom = 93.0
-
-[node name="ServerBtn" type="Button" parent="Menu"]
-layout_mode = 2
-text = "Server"
-
-[node name="ClientBtn" type="Button" parent="Menu"]
-layout_mode = 2
-text = "Client"
-
 [node name="NetworkInfo" type="VBoxContainer" parent="."]
 offset_left = 517.0
 offset_top = 4.0
@@ -46,6 +32,4 @@ text = "Lag:"
 layout_mode = 2
 text = "0.250"
 
-[connection signal="pressed" from="Menu/ServerBtn" to="." method="_on_server_btn_pressed"]
-[connection signal="pressed" from="Menu/ClientBtn" to="." method="_on_client_btn_pressed"]
 [connection signal="text_submitted" from="Lag/LineEdit" to="." method="_on_line_edit_text_submitted"]
